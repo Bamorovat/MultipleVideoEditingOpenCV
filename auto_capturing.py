@@ -3,10 +3,10 @@ import os
 import numpy as np
 from time import sleep
 
-cap1 = None
-cap2 = None
-cap3 = None
-cap4 = None
+cap1 = None     # robot
+cap2 = None     # living room RGB
+cap3 = None     # living room omni
+cap4 = None     # Sofa
 
 out1 = None
 out2 = None
@@ -14,8 +14,13 @@ out3 = None
 out4 = None
 
 check = None
-
 status = None
+
+robot_view_trimming = 0
+living_room_view_trimming = 0
+omni_view_trimming = 45
+sofa_view_trimming = 0
+
 
 livingroom_frame_number = 0
 tots = 0
@@ -216,10 +221,10 @@ def record():
     length = frame_end - frame_start
     i = frame_start
     # print(i)
-    cap1.set(cv2.CAP_PROP_POS_FRAMES, i + 1)
-    cap2.set(cv2.CAP_PROP_POS_FRAMES, i)
-    cap3.set(cv2.CAP_PROP_POS_FRAMES, i+120)
-    cap4.set(cv2.CAP_PROP_POS_FRAMES, i)
+    cap1.set(cv2.CAP_PROP_POS_FRAMES, i + robot_view_trimming)
+    cap2.set(cv2.CAP_PROP_POS_FRAMES, i + living_room_view_trimming)
+    cap3.set(cv2.CAP_PROP_POS_FRAMES, i + omni_view_trimming)
+    cap4.set(cv2.CAP_PROP_POS_FRAMES, i + sofa_view_trimming)
     for i in range(length):
         # print(i)
         ret1, frame1 = cap1.read()
@@ -251,10 +256,10 @@ def play():
     try:
         if livingroom_frame_number == tots - 1:
             livingroom_frame_number = 0
-        cap1.set(cv2.CAP_PROP_POS_FRAMES, livingroom_frame_number+1)
-        cap2.set(cv2.CAP_PROP_POS_FRAMES, livingroom_frame_number)
-        cap3.set(cv2.CAP_PROP_POS_FRAMES, livingroom_frame_number+120)
-        cap4.set(cv2.CAP_PROP_POS_FRAMES, livingroom_frame_number)
+        cap1.set(cv2.CAP_PROP_POS_FRAMES, livingroom_frame_number + robot_view_trimming)
+        cap2.set(cv2.CAP_PROP_POS_FRAMES, livingroom_frame_number + living_room_view_trimming)
+        cap3.set(cv2.CAP_PROP_POS_FRAMES, livingroom_frame_number + omni_view_trimming)
+        cap4.set(cv2.CAP_PROP_POS_FRAMES, livingroom_frame_number + sofa_view_trimming)
 
         ret1, im1 = cap1.read()
         ret2, im2 = cap2.read()
