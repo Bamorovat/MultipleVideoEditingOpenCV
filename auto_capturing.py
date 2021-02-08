@@ -3,10 +3,10 @@ import os
 import numpy as np
 from time import sleep
 
-cap1 = None     # robot
-cap2 = None     # living room RGB
-cap3 = None     # living room omni
-cap4 = None     # Sofa
+cap1 = None  # robot
+cap2 = None  # living room RGB
+cap3 = None  # living room omni
+cap4 = None  # Sofa
 
 out1 = None
 out2 = None
@@ -18,16 +18,17 @@ status = None
 
 robot_view_trimming = 0
 living_room_view_trimming = 0
-omni_view_trimming = 45
+omni_view_trimming = 65
 sofa_view_trimming = 0
 
-
-livingroom_frame_number = 0
+livingroom_frame_number = 2267
 tots = 0
 frame_rate = 30
 off = 0
 frame_start = 0
 frame_end = 0
+
+#livingroom_start_frame = 2267
 
 robot_view_frames_tots = 0
 rgbd_livingroom_frames_tots = 0
@@ -45,6 +46,19 @@ action_robot_view_path = '/home/abbas/phd/dataset/action/robot_view/'
 action_rgbd_livingroom_path = '/home/abbas/phd/dataset/action/rgbd_livingroom/'
 action_omni_livingroom_path = '/home/abbas/phd/dataset/action/omni_livingroom/'
 action_rgbd_sofa_path = '/home/abbas/phd/dataset/action/rgbd_sofa/'
+
+
+class Color:
+    PURPLE = '\033[95m'
+    CYAN = '\033[96m'
+    DARKCYAN = '\033[36m'
+    BLUE = '\033[94m'
+    GREEN = '\033[92m'
+    YELLOW = '\033[93m'
+    RED = '\033[91m'
+    BOLD = '\033[1m'
+    UNDERLINE = '\033[4m'
+    END = '\033[0m'
 
 
 def get_videos(cap_name):
@@ -94,8 +108,7 @@ def player_init():
     cv2.namedWindow('omni_livingroom')
     cv2.namedWindow('rgbd_sofa')
     cv2.namedWindow('controls')
-    # cv2.moveWindow('image', 250, 150)
-    # cv2.moveWindow('controls', 250, 50)
+    cv2.moveWindow('controls', 500, 40)
 
     cv2.putText(controls, "W: Play | S: Stay | A: Prev | D: Next | Z: Frame_Start | X: Frame_End | C: Snap | Esc: Exit",
                 (40, 30), cv2.FONT_HERSHEY_COMPLEX, 0.45, (100, 140, 60))
@@ -129,10 +142,10 @@ def getTrackbarPos():
 
 def setTrackbarPos(name, ii):
     if name == 'S':
-        cv2.setTrackbarPos('Frame_number', 'robot_view', ii)
-        cv2.setTrackbarPos('Frame_number', 'rgbd_livingroom', ii)
-        cv2.setTrackbarPos('Frame_number', 'omni_livingroom', ii)
-        cv2.setTrackbarPos('Frame_number', 'rgbd_sofa', ii)
+        cv2.setTrackbarPos('Frame_number', 'robot_view', (ii + robot_view_trimming))
+        cv2.setTrackbarPos('Frame_number', 'rgbd_livingroom', (ii + living_room_view_trimming))
+        cv2.setTrackbarPos('Frame_number', 'omni_livingroom', (ii + omni_view_trimming))
+        cv2.setTrackbarPos('Frame_number', 'rgbd_sofa', (ii + sofa_view_trimming))
     elif name == 'F':
         cv2.setTrackbarPos('Frame_rate', 'robot_view', ii)
         cv2.setTrackbarPos('Frame_rate', 'rgbd_livingroom', ii)
@@ -145,16 +158,21 @@ def record_init():
     global out1, out2, out3, out4
     # name_path = '/home/abbas/phd/dataset/action/robot_view/'
     class_name = getClassName()
+    # print('record_init: ', class_name)
     file_name = getNextFilePath(action_robot_view_path, class_name)
     file_name = str(file_name)
     # folder_name =
     # Define the codec and create VideoWriter object
     fourcc = cv2.VideoWriter_fourcc(*'MJPG')  # 'X','V','I','D' _ (*'MJPG') _ *'XVID'
     # out = cv2.VideoWriter(os.path.join(path, (output_name + '.avi')), fourcc, 30.0, frame_size)
-    out1 = cv2.VideoWriter(os.path.join(action_robot_view_path, class_name, (file_name + '.avi')), fourcc, 30.0, (640, 480))
-    out2 = cv2.VideoWriter(os.path.join(action_rgbd_livingroom_path, class_name, (file_name + '.avi')), fourcc, 30.0, (640, 480))
-    out3 = cv2.VideoWriter(os.path.join(action_omni_livingroom_path, class_name, (file_name + '.avi')), fourcc, 30.0, (512, 486))
-    out4 = cv2.VideoWriter(os.path.join(action_rgbd_sofa_path, class_name, (file_name + '.avi')), fourcc, 30.0, (640, 480))
+    out1 = cv2.VideoWriter(os.path.join(action_robot_view_path, class_name, (file_name + '.avi')), fourcc, 30.0,
+                           (640, 480))
+    out2 = cv2.VideoWriter(os.path.join(action_rgbd_livingroom_path, class_name, (file_name + '.avi')), fourcc, 30.0,
+                           (640, 480))
+    out3 = cv2.VideoWriter(os.path.join(action_omni_livingroom_path, class_name, (file_name + '.avi')), fourcc, 30.0,
+                           (512, 486))
+    out4 = cv2.VideoWriter(os.path.join(action_rgbd_sofa_path, class_name, (file_name + '.avi')), fourcc, 30.0,
+                           (640, 480))
 
 
 def create_class_folder(class_name):
@@ -166,31 +184,50 @@ def create_class_folder(class_name):
     os.mkdir(dir_path_rgbd_livingroom)
     os.mkdir(dir_path_omni_livingroom)
     os.mkdir(dir_path_rgbd_sofa)
-    print("Successfully created the directory")
+    print("Successfully Created the Class Directory")
     return
 
 
 def getClassName():
     global check
-    class_name = input("What is The Class Name:")
-    print("The Class name is " + class_name)
-    class_list = open('/home/abbas/phd/dataset/action/Class_List.txt', 'r+')
-    class_list_readline = class_list.readlines()
-    # print(class_list_readline)
-    print("Checking for the class ...")
-    for line in class_list_readline:
-        if class_name not in line:
-            check = True
-        elif class_name in line:
-            check = False
-            print("The Class is Existed")
-            break
+    class_name_confirmation = 'n'
 
-    if check:
-        print("The New Class is Adding ...")
-        create_class_folder(class_name)
-        class_list.write(class_name + '\n')
-        print("The New Class Added")
+    while class_name_confirmation != 'y':
+        class_list = open('/home/abbas/phd/dataset/action/Class_List.txt', 'r+')
+        class_list_readline = class_list.readlines()
+        print(Color.BOLD + Color.DARKCYAN + 'Existing Classes Are: ' + Color.END)
+        for i, line in enumerate(class_list_readline, start=1):
+            # print(Color.DARKCYAN + str(line) + Color.END, sep=', ')    # '\n'
+            print('{} = {}'.format(Color.CYAN + str(i), Color.CYAN + line.strip() + Color.END))
+        class_name = input("What is The Class Name or Number:")
+        if class_name.isdigit():
+            print('You Enter the Class Number ...')
+            for iii, line in enumerate(class_list_readline, start=1):
+                if iii == int(class_name):
+                    class_name = line.strip()
+                    break
+        print("The Class name is: " + Color.BOLD + Color.RED + Color.UNDERLINE + class_name + Color.END)
+        class_name_confirmation = input('Is it the correct class name (y/n)? ')
+        if class_name_confirmation == 'y':
+            print(" Checking for the class ...")
+            for line in class_list_readline:
+                if class_name not in line:
+                    check = True
+                elif class_name in line:
+                    check = False
+                    print("The Class is Existed")
+                    break
+
+            if check:
+                print(" The New Class is Adding ...")
+                create_class_folder(class_name)
+                class_list.write(class_name + '\n')
+                print("The New Class is Added")
+                return class_name
+        elif class_name_confirmation == 'n':
+            pass
+        else:
+            print('Error: Enter (y/n) ...')
 
     class_list.close()
     return class_name
@@ -267,9 +304,13 @@ def play():
         ret4, im4 = cap4.read()
 
         cv2.imshow('robot_view', im1)
+        cv2.moveWindow('robot_view', 100, 40)
         cv2.imshow('rgbd_livingroom', im2)
+        cv2.moveWindow('rgbd_livingroom', 750, 40)
         cv2.imshow('omni_livingroom', im3)
+        cv2.moveWindow('omni_livingroom', 1400, 40)
         cv2.imshow('rgbd_sofa', im4)
+        cv2.moveWindow('rgbd_sofa', 1400, 700)
 
         status = {ord('s'): 'stay', ord('S'): 'stay',
                   ord('w'): 'play', ord('W'): 'play',
@@ -282,6 +323,8 @@ def play():
                   ord('x'): 'Frame_End', ord('X'): 'Frame_End',
                   -1: status,
                   27: 'exit'}[cv2.waitKey(10)]
+
+        setTrackbarPos('S', livingroom_frame_number)
 
         if status == 'play':
             getTrackbarPos()
@@ -301,14 +344,18 @@ def play():
             status = 'stay'
         if status == 'Frame_Start':
             frame_start = cv2.getTrackbarPos('Frame_number', 'rgbd_livingroom')
-            print("The Start Frame Number is : ", frame_start)
+            print(Color.BLUE + "################## Start Capturing ################# " + Color.END)
+            print("The Start Frame Number is : " + Color.BOLD + Color.PURPLE + str(frame_start) + Color.END)
+            # print("The Start Frame Number is : ", frame_start)
             status = 'stay'
         if status == 'Frame_End':
             frame_end = cv2.getTrackbarPos('Frame_number', 'rgbd_livingroom')
-            print("The Last Frame Number is: ", frame_end)
-            print('Please Wait: The videos are recording ...')
+            print("The Last Frame Number is: " + Color.BOLD + Color.PURPLE + str(frame_end) + Color.END)
+            print(' Please Wait ... ')
+            print(' The Videos Are Saving ... ')
             record()
-            print('Continue: The videos are recorded')
+            print('The Videos Are Saved ')
+            print(Color.YELLOW + "################## End Capturing ################# " + Color.END)
             status = 'stay'
         if status == 'slow':
             frame_rate = max(frame_rate - 5, 0)
@@ -354,8 +401,6 @@ def main():
 # Press the green button in the gutter to run the script.
 if __name__ == '__main__':
     main()
-
-
 
 '''
 r11 = 750.0 / im1.shape[1]
