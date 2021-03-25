@@ -18,7 +18,7 @@ class Player:
                     (40, 30), cv2.FONT_HERSHEY_COMPLEX, 0.53, (100, 140, 60))
 
         self.i = 0
-        video = '/home/abbas/phd/dataset/video/robot_view/1.avi'
+        video = '/home/abbas/phd/dataset/video/rgbd_sofa/16.avi'
         self.cap = cv2.VideoCapture(video)
         self.tots = self.cap.get(cv2.CAP_PROP_FRAME_COUNT)
 

@@ -18,17 +18,16 @@ status = None
 
 robot_view_trimming = 0
 living_room_view_trimming = 0
-omni_view_trimming = 65
+omni_view_trimming = 50
 sofa_view_trimming = 0
 
-livingroom_frame_number = 2267
+livingroom_frame_number = 260
+
 tots = 0
 frame_rate = 30
 off = 0
 frame_start = 0
 frame_end = 0
-
-#livingroom_start_frame = 2267
 
 robot_view_frames_tots = 0
 rgbd_livingroom_frames_tots = 0
@@ -161,7 +160,6 @@ def record_init():
     # print('record_init: ', class_name)
     file_name = getNextFilePath(action_robot_view_path, class_name)
     file_name = str(file_name)
-    # folder_name =
     # Define the codec and create VideoWriter object
     fourcc = cv2.VideoWriter_fourcc(*'MJPG')  # 'X','V','I','D' _ (*'MJPG') _ *'XVID'
     # out = cv2.VideoWriter(os.path.join(path, (output_name + '.avi')), fourcc, 30.0, frame_size)
@@ -280,6 +278,20 @@ def record():
     return
 
 
+def image_write(i, im1, im2, im3, im4, image_name):
+    cv2.imwrite("./" + "Snap_" + "robot_view_" + image_name + ".jpg", im1)
+    cv2.imwrite("./" + "Snap_" + "living_room_" + image_name + ".jpg", im2)
+    cv2.imwrite("./" + "Snap_" + "omni_view_" + image_name + ".jpg", im3)
+    cv2.imwrite("./" + "Snap_" + "sofa_view_" + image_name + ".jpg", im4)
+
+    # cv2.imwrite("./" + "Snap_" + "robot_view" + str(i + robot_view_trimming) + ".jpg", im1)
+    # cv2.imwrite("./" + "Snap_" + "living_room" + str(i + living_room_view_trimming) + ".jpg", im2)
+    # cv2.imwrite("./" + "Snap_" + "omni_view" + str(i + omni_view_trimming) + ".jpg", im3)
+    # cv2.imwrite("./" + "Snap_" + "sofa_view" + str(i + sofa_view_trimming) + ".jpg", im4)
+    # print("Snap of Frame", livingroom_frame_number, "Taken!")
+    return
+
+
 def play():
     global livingroom_frame_number
     global tots
@@ -366,7 +378,9 @@ def play():
             setTrackbarPos('F', frame_rate)
             status = 'play'
         if status == 'snap':
-            cv2.imwrite("./" + "Snap_" + str(livingroom_frame_number) + ".jpg", im1)
+            image_name = input('what is the action name ')
+            image_write(livingroom_frame_number, im1, im2, im3, im4, image_name)
+            # cv2.imwrite("./" + "Snap_" + str(livingroom_frame_number) + ".jpg", im1)
             print("Snap of Frame", livingroom_frame_number, "Taken!")
             status = 'stay'
 
@@ -390,7 +404,7 @@ def destroy():
 
 
 def main():
-    cap_name = '2'
+    cap_name = '10'
     get_videos(cap_name)
     player_init()
 
