@@ -36,15 +36,17 @@ rgbd_sofa_frames_tots = 0
 
 controls = np.zeros((50, 750, 3), np.uint8)
 
-robot_view_path = '/home/abbas/phd/dataset/video/robot_view/'
-rgbd_livingroom_path = '/home/abbas/phd/dataset/video/rgbd_livingroom/'
-omni_livingroom_path = '/home/abbas/phd/dataset/video/omni_livingroom/'
-rgbd_sofa_path = '/home/abbas/phd/dataset/video/rgbd_sofa/'
+video_path = '/home/abbas/phd/dataset/video/'
+robot_view_path = video_path + 'robot_view/' #'/home/abbas/phd/dataset/video/robot_view/'
+rgbd_livingroom_path = video_path + 'rgbd_livingroom/' # '/home/abbas/phd/dataset/video/rgbd_livingroom/'
+omni_livingroom_path = video_path + 'omni_livingroom/' # '/home/abbas/phd/dataset/video/omni_livingroom/'
+rgbd_sofa_path = video_path + 'rgbd_sofa/' # '/home/abbas/phd/dataset/video/rgbd_sofa/'
 
-action_robot_view_path = '/home/abbas/phd/dataset/action/robot_view/'
-action_rgbd_livingroom_path = '/home/abbas/phd/dataset/action/rgbd_livingroom/'
-action_omni_livingroom_path = '/home/abbas/phd/dataset/action/omni_livingroom/'
-action_rgbd_sofa_path = '/home/abbas/phd/dataset/action/rgbd_sofa/'
+action_path = '/home/abbas/phd/dataset/action/'
+action_robot_view_path = action_path + 'robot_view/' # '/home/abbas/phd/dataset/action/robot_view/'
+action_rgbd_livingroom_path = action_path + 'rgbd_livingroom/' #  '/home/abbas/phd/dataset/action/rgbd_livingroom/'
+action_omni_livingroom_path = action_path + 'omni_livingroom/' # '/home/abbas/phd/dataset/action/omni_livingroom/'
+action_rgbd_sofa_path = action_path + 'rgbd_sofa/' # '/home/abbas/phd/dataset/action/rgbd_sofa/'
 
 
 class Color:
