@@ -1,3 +1,8 @@
+"""
+Multiple Video Editing tool  
+@author Mohammad Abadi <m.bamorovvat@gmail.com>
+"""
+
 import sys
 from time import sleep
 
