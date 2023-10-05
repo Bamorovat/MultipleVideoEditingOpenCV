@@ -6,7 +6,9 @@ This work is a part of the Human Activity Recognition project at [Robot House](h
 This code is implemented with Python programming Language and **OpenCV Library**.
 
 ##### If you use ***Multiple Video Editing OpenCV*** in an academic work, **please cite it via the below bibtex links**.
-1- Rhm: Robot house multi-view human activity recognition dataset, Abadi, Mohammad Bamorovat and Alashti, Mohamad Reza Shahabian and Holthaus, Patrick and Menon, Catherine and Amirabdollahian, Farshid,IARIA, March,2023
+1- **Rhm: Robot house multi-view human activity recognition dataset**,
+Abadi, Mohammad Bamorovat and Alashti, Mohamad Reza Shahabian and Holthaus, Patrick and Menon, Catherine and Amirabdollahian, Farshid,IARIA, March,2023
+[PDF](https://patrickholthaus.de/publications/BamorovatAbadi2023.pdf) [scholar](https://scholar.google.com/scholar?hl=en&as_sdt=0%2C5&q=RHM%3A+Robot+House+Multi-view+Human+Activity+Recognition+Dataset&btnG=)
 
 
 
