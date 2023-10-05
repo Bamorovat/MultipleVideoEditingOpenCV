@@ -1,4 +1,4 @@
-# Video_Editing_OpenCV
+# Multiple Video Editing OpenCV
 
 ## Usage:
 
