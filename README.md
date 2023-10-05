@@ -2,4 +2,4 @@
 
 ## Usage:
 
-### Use  auto_capturing.py for editing videos together
+Use  auto_capturing.py for editing videos together
