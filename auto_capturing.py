@@ -1,6 +1,6 @@
 """
 Multiple Video Editing tool  
-@author Mohammad Abadi <m.bamorovvat@hmail.com>
+@author Mohammad Abadi <m.bamorovvat@gmail.com>
 """
 
 
