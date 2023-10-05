@@ -1,3 +1,9 @@
+"""
+Multiple Video Editing tool  
+@author Mohammad Abadi <m.bamorovvat@hmail.com>
+"""
+
+
 import cv2
 import os
 import numpy as np
