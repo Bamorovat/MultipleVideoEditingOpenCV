@@ -424,37 +424,3 @@ def main():
 if __name__ == '__main__':
     main()
 
-'''
-r11 = 750.0 / im1.shape[1]
-dim1 = (750, int(im1.shape[0] * r11))
-im1 = cv2.resize(im1, dim1, interpolation=cv2.INTER_AREA)
-
-r22 = 750.0 / im2.shape[1]
-dim2 = (750, int(im2.shape[0] * r22))
-im2 = cv2.resize(im2, dim2, interpolation=cv2.INTER_AREA)
-
-r33 = 750.0 / im3.shape[1]
-dim3 = (750, int(im3.shape[0] * r33))
-im3 = cv2.resize(im3, dim3, interpolation=cv2.INTER_AREA)
-
-if im1.shape[0] > 600:
-    im1 = cv2.resize(im1, (500, 500))
-    controls = cv2.resize(controls, (im1.shape[1], 25))
-
-if im2.shape[0] > 600:
-    im2 = cv2.resize(im2, (500, 500))
-    # controls = cv2.resize(controls, (im2.shape[1], 25))
-
-if im3.shape[0] > 600:
-    im3 = cv2.resize(im3, (500, 500))
-    # controls = cv2.resize(controls, (im3.shape[1], 25))
-    
-    
-    if not class_list_readline:
-        print("The New Class is Adding ...")
-        create_class_folder(class_name)
-        class_list.write(class_name + '\n')
-        print("The New Class Added")
-    elif class_list_readline:
-
-'''
