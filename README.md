@@ -5,6 +5,43 @@
 [![Python](https://img.shields.io/badge/Python-3.8%2B-blue.svg)](https://www.python.org/)
 [![OpenCV](https://img.shields.io/badge/OpenCV-4.0%2B-green.svg)](https://opencv.org/)
 
+## Overview
+
+**Multiple Video Editing OpenCV** is a specialized tool designed for **synchronized multi-camera video editing and annotation**, particularly tailored for **human activity recognition research**. This tool enables researchers to efficiently process, synchronize, and annotate video data from multiple camera perspectives simultaneously.
+
+### What is this tool?
+
+This is a **Python-based video editing and annotation platform** that allows researchers to:
+
+- **Synchronize multiple camera views** from different perspectives (robot view, RGB cameras, omnidirectional cameras)
+- **Interactively navigate and edit** video sequences with frame-level precision
+- **Create annotated video segments** for machine learning datasets
+- **Export synchronized clips** for training activity recognition models
+- **Manage action classes** with automatic folder organization
+
+### What can it be used for?
+
+**Primary Use Cases:**
+
+- **Dataset Creation**: Generate annotated video datasets for human activity recognition research
+- **🤖 Robotics Research**: Process multi-perspective robot house recordings for behavior analysis  
+- **Human Activity Analysis**: Study and annotate human activities from multiple viewpoints
+- **Ambient Assisted Living**: Analyze daily activities in smart home environments
+- **Multi-camera Synchronization**: Align and process videos from different camera systems
+- **Computer Vision Research**: Create ground truth data for action recognition algorithms
+
+**Research Applications:**
+
+- Human-robot interaction studies
+- Activity recognition in assisted living scenarios  
+- Multi-view behavior analysis
+- Smart home monitoring systems
+- Eldercare technology research
+- Surveillance and security applications
+
+> [!TIP]
+> This tool was specifically developed for the **RHM (Robot House Multi-view) dataset** but can be adapted for any multi-camera video synchronization and annotation tasks.
+
 ## Author: [Mohammad Hossein Bamorovat Abadi](https://www.bamorovat.com/)
 This work is a part of the Human Activity Recognition project at [Robot House](https://robothouse.herts.ac.uk/)
 
